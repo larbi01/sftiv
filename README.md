@@ -40,24 +40,38 @@ Each frame is prefixed with an 8-byte big-endian length.
 # 📁 Project structure
 
 sftiv/
-sftiv/
-crypto/
-hashing.py # SHA-256 (streaming)
-symmetric.py # AES-256-GCM + self-describing envelope header
-manifest.py # JSON manifest (version, file, size, sha256, timestamp)
-signing.py # Ed25519 PEM keypair + sign/verify (base64 detached)
-net/
-framing.py # length-prefixed frames (8-byte big-endian)
-server.py # TCP server: receive & store encrypted envelope
-client.py # TCP client: send encrypted envelope
-cli.py # unified CLI subcommands
-tests/
-run_e2e.py # minimal end-to-end happy path
-samples/ # demo inputs/outputs (keys are gitignored for safety)
-requirements.txt
-README.md
 
----
+sftiv/
+
+crypto/
+
+hashing.py # SHA-256 (streaming)
+
+symmetric.py # AES-256-GCM + self-describing envelope header
+
+manifest.py # JSON manifest (version, file, size, sha256, timestamp)
+
+signing.py # Ed25519 PEM keypair + sign/verify (base64 detached)
+
+net/
+
+framing.py # length-prefixed frames (8-byte big-endian)
+
+server.py # TCP server: receive & store encrypted envelope
+
+client.py # TCP client: send encrypted envelope
+
+cli.py # unified CLI subcommands
+
+tests/
+
+run_e2e.py # minimal end-to-end happy path
+
+samples/ # demo inputs/outputs (keys are gitignored for safety)
+
+requirements.txt
+
+README.md
 
 # 🧰 Setup (WSL Ubuntu)
 
@@ -85,7 +99,7 @@ pip install -r requirements.txt  # or: pip install cryptography
 If you didn’t commit requirements.txt, run pip install cryptography and then pip freeze > requirements.txt.
 
 
-#### 🚀 Quick start (local demo)
+# 🚀 Quick start (local demo)
 
 ### 1) Generate AES key (base64, perms 0600)
 python -m sftiv.cli keygen -o sftiv/samples/aes.key
