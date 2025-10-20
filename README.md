@@ -30,9 +30,6 @@ sha256(plaintext_out)
 verify manifest
 verify signature
 
-csharp
-Copy code
-
 **Transport wire format (simple & robust):**
 1. **Header frame:** JSON → `{"version":1,"type":"envelope","size":...,"suggested_name":"..."}`  
 2. **Data frame:** raw encrypted envelope bytes.  
