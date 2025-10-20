@@ -61,13 +61,16 @@ README.md
 
 ## 🧰 Setup (WSL Ubuntu)
 
- 0) Open WSL Ubuntu
+0) Open WSL Ubuntu
+
 cd ~/
 
- 1) Python toolchain
+2) Python toolchain
+
 sudo apt update && sudo apt -y install python3 python3-venv python3-pip
 
- 2) Clone and prepare venv
+4) Clone and prepare venv
+
 cd ~/projects
 git clone https://github.com/larbi01/sftiv.git
 cd sftiv
@@ -79,26 +82,34 @@ If you didn’t commit requirements.txt, run pip install cryptography and then p
 
 ## 🚀 Quick start (local demo)
 
- 1) Generate AES key (base64, perms 0600)
+1) Generate AES key (base64, perms 0600)
+
 python -m sftiv.cli keygen -o sftiv/samples/aes.key
 
- 2) Prepare a plaintext and encrypt
+3) Prepare a plaintext and encrypt
+
 echo "hello secure world" > sftiv/samples/hello.txt
+
 python -m sftiv.cli encrypt -k sftiv/samples/aes.key -i sftiv/samples/hello.txt -o sftiv/samples/hello.enc
 
- 3) Run the server (Terminal A)
+5) Run the server (Terminal A)
+
 python -m sftiv.cli server --bind 127.0.0.1 --port 5001 --outdir sftiv/samples/inbox
 
- 4) Send the encrypted envelope (Terminal B)
+7) Send the encrypted envelope (Terminal B)
+
 python -m sftiv.cli send --host 127.0.0.1 --port 5001 --file sftiv/samples/hello.enc --name hello.enc
 
- 5) Decrypt the received file
+9) Decrypt the received file
+
  replace <timestamp> with the file the server wrote (it prints it)
+ 
 python -m sftiv.cli decrypt -k sftiv/samples/aes.key \
   -i sftiv/samples/inbox/<timestamp>_hello.enc \
   -o sftiv/samples/hello.out.txt
 
- 6) Integrity manifest + signature
+ 11) Integrity manifest + signature
+
 python -m sftiv.cli manifest -i sftiv/samples/hello.txt -o sftiv/samples/hello.txt.sha256.json -m "demo"
 python -m sftiv.cli sigkeygen --priv sftiv/samples/ed25519_priv.pem --pub sftiv/samples/ed25519_pub.pem
 python -m sftiv.cli sign-manifest -p sftiv/samples/ed25519_priv.pem -m sftiv/samples/hello.txt.sha256.json -o sftiv/samples/hello.txt.sha256.json.sig
