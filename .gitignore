@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.pytest_cache/
+.cache/
+
+# Virtual env
+.venv/
+
+# Editor/OS
+.DS_Store
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Project samples: DO NOT COMMIT SECRETS
+sftiv/samples/*.key
+sftiv/samples/*.pem
+sftiv/samples/*.enc
+sftiv/samples/inbox/
+# (keep these if you want)
+!sftiv/samples/hello.txt
+!sftiv/samples/secret.txt
+!sftiv/samples/secret2.txt
+!sftiv/samples/*.sha256.json
+!sftiv/samples/*.sha256.json.sig
