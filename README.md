@@ -61,13 +61,13 @@ README.md
 
 ## 🧰 Setup (WSL Ubuntu)
 
-# 0) Open WSL Ubuntu
+ 0) Open WSL Ubuntu
 cd ~/
 
-# 1) Python toolchain
+ 1) Python toolchain
 sudo apt update && sudo apt -y install python3 python3-venv python3-pip
 
-# 2) Clone and prepare venv
+ 2) Clone and prepare venv
 cd ~/projects
 git clone https://github.com/larbi01/sftiv.git
 cd sftiv
@@ -77,33 +77,33 @@ python -m pip install --upgrade pip
 pip install -r requirements.txt  # or: pip install cryptography
 If you didn’t commit requirements.txt, run pip install cryptography and then pip freeze > requirements.txt.
 
-🚀 Quick start (local demo)
+## 🚀 Quick start (local demo)
 
-# 1) Generate AES key (base64, perms 0600)
+ 1) Generate AES key (base64, perms 0600)
 python -m sftiv.cli keygen -o sftiv/samples/aes.key
 
-# 2) Prepare a plaintext and encrypt
+ 2) Prepare a plaintext and encrypt
 echo "hello secure world" > sftiv/samples/hello.txt
 python -m sftiv.cli encrypt -k sftiv/samples/aes.key -i sftiv/samples/hello.txt -o sftiv/samples/hello.enc
 
-# 3) Run the server (Terminal A)
+ 3) Run the server (Terminal A)
 python -m sftiv.cli server --bind 127.0.0.1 --port 5001 --outdir sftiv/samples/inbox
 
-# 4) Send the encrypted envelope (Terminal B)
+ 4) Send the encrypted envelope (Terminal B)
 python -m sftiv.cli send --host 127.0.0.1 --port 5001 --file sftiv/samples/hello.enc --name hello.enc
 
-# 5) Decrypt the received file
-# replace <timestamp> with the file the server wrote (it prints it)
+ 5) Decrypt the received file
+ replace <timestamp> with the file the server wrote (it prints it)
 python -m sftiv.cli decrypt -k sftiv/samples/aes.key \
   -i sftiv/samples/inbox/<timestamp>_hello.enc \
   -o sftiv/samples/hello.out.txt
 
-# 6) Integrity manifest + signature
+ 6) Integrity manifest + signature
 python -m sftiv.cli manifest -i sftiv/samples/hello.txt -o sftiv/samples/hello.txt.sha256.json -m "demo"
 python -m sftiv.cli sigkeygen --priv sftiv/samples/ed25519_priv.pem --pub sftiv/samples/ed25519_pub.pem
 python -m sftiv.cli sign-manifest -p sftiv/samples/ed25519_priv.pem -m sftiv/samples/hello.txt.sha256.json -o sftiv/samples/hello.txt.sha256.json.sig
 
-# Verify integrity & authenticity on the receiver side
+ Verify integrity & authenticity on the receiver side
 python -m sftiv.cli verify -m sftiv/samples/hello.txt.sha256.json -f sftiv/samples/hello.out.txt
 python -m sftiv.cli verify-signature --pub sftiv/samples/ed25519_pub.pem -m sftiv/samples/hello.txt.sha256.json -s sftiv/samples/hello.txt.sha256.json.sig
 Expected outputs:
@@ -112,7 +112,7 @@ verify: [OK] Integrity verified …
 
 verify-signature: [OK] Signature is VALID …
 
-🔍 Negative tests (show security in action)
+## 🔍 Negative tests (show security in action)
 Tamper ciphertext → decrypt fails (GCM tag):
 
 cp sftiv/samples/hello.enc sftiv/samples/hello.tampered.enc
@@ -128,13 +128,13 @@ Tamper manifest’s sha256 → signature invalid.
 
 Truncate envelope → decrypt fails.
 
-🔐 Security notes
+## 🔐 Security notes
 Key hygiene: store AES keys with 0600 perms; rotate per policy.
 
 Nonce safety: AES-GCM uses a fresh 96-bit random nonce per encryption; never reuse (key, nonce).
 
 Manifest signing: we sign the parsed JSON (canonicalized) to ignore insignificant whitespace; data changes will break verification.
 
-📜 License
+## 📜 License
 
 This project is done by Larbi OUADEIH
